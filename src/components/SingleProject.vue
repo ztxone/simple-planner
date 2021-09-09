@@ -1,13 +1,15 @@
 <template>
   <div
-    class="project my-5 mx-auto bg-white py-4 px-5 rounded-md shadow border-l-4 border-red-600"
+    @click.self="toggleDetails"
+    class="project cursor-pointer my-5 mx-auto bg-white py-4 px-5 rounded-md shadow border-l-4 border-red-600"
     :class="{ 'border-green-400': project.complete }"
   >
     <div
       @click.self="toggleDetails"
-      class="flex justify-between items-center cursor-pointer "
+      class="cursor-pointer flex justify-between items-center"
     >
       <h3
+        @click.self="toggleDetails"
         class="text-xl font-semibold"
         :class="{ 'line-through': project.complete }"
       >
