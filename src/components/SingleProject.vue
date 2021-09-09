@@ -1,16 +1,27 @@
 <template>
   <div
     class="project my-5 mx-auto bg-white py-4 px-5 rounded-md shadow border-l-4 border-red-600"
+    :class="{ 'border-green-400': project.complete }"
   >
-    <div class="flex justify-between items-center">
-      <h3 @click="toggleDetails" class="cursor-pointer">
+    <div
+      @click.self="toggleDetails"
+      class="flex justify-between items-center cursor-pointer "
+    >
+      <h3
+        class="text-xl font-semibold"
+        :class="{ 'line-through': project.complete }"
+      >
         {{ project.title }}
       </h3>
       <div class="icons flex space-x-4">
-        <span
+        <span @click="toggleComplete"
           ><svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-7 w-7 cursor-pointer text-gray-300 hover:text-gray-600"
+            class="h-7 w-7 cursor-pointer text-gray-300"
+            :class="{
+              'text-green-400': project.complete,
+              'hover:text-gray-400': !project.complete,
+            }"
             viewBox="0 0 20 20"
             fill="currentColor"
           >
@@ -20,26 +31,31 @@
               clip-rule="evenodd"
             /></svg
         ></span>
-        <span
-          ><svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-7 w-7 cursor-pointer text-gray-300 hover:text-gray-600"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"
-            />
-            <path
-              fill-rule="evenodd"
-              d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
-              clip-rule="evenodd"
-            /></svg
-        ></span>
+        <router-link
+          :to="{ name: 'EditProject', params: { id: this.project.id } }"
+        >
+          <span
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-7 w-7 cursor-pointer text-gray-300 hover:text-gray-400"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
+                clip-rule="evenodd"
+              /></svg
+          ></span>
+        </router-link>
+
         <span @click="deleteProject"
           ><svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-7 w-7 cursor-pointer text-gray-300 hover:text-gray-600"
+            class="h-7 w-7 cursor-pointer text-gray-300 hover:text-gray-400"
             viewBox="0 0 20 20"
             fill="currentColor"
           >
@@ -51,7 +67,7 @@
         ></span>
       </div>
     </div>
-    <div class="details" v-if="showDetails">
+    <div class="details p-3" v-if="showDetails">
       <p>{{ project.details }}</p>
     </div>
   </div>
@@ -73,6 +89,15 @@ export default {
     deleteProject() {
       fetch(this.uri, { method: "DELETE" })
         .then(() => this.$emit("delete", this.project.id))
+        .catch((err) => console.log(err.message))
+    },
+    toggleComplete() {
+      fetch(this.uri, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ complete: !this.project.complete }),
+      })
+        .then(() => this.$emit("complete", this.project.id))
         .catch((err) => console.log(err.message))
     },
   },

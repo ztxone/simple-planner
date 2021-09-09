@@ -2,15 +2,21 @@
   "projects": [
     {
       "id": 1,
-      "title": "Create new homepage banner",
-      "details": "Lorem Lorem",
+      "title": "Create new homepage",
+      "details": "Lorem Lorem wref",
       "complete": false
     },
     {
       "id": 2,
-      "title": "Make new email template",
-      "details": "Lorem Lorem Ipsum Ipsum",
-      "complete": true
+      "title": "Make new email",
+      "details": "Lorem Lorem Ipsum Ipsum z czxc asdvf wsgs",
+      "complete": false
+    },
+    {
+      "title": "Test Title 22",
+      "details": "Test Description 222",
+      "complete": true,
+      "id": 3
     }
   ]
 }
