@@ -8,6 +8,7 @@ yarn install
 ### Compiles and hot-reloads for development
 ```
 yarn serve
+json-server --watch data/db.json
 ```
 
 ### Compiles and minifies for production
